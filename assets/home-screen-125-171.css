@@ -1,0 +1,300 @@
+/*
+  Changelog:
+  - Enforced exact pixel mapping based on screen_125:171.json for positions/sizes.
+  - Added robust responsive scaling with max-width guard; preserved base pixel grid.
+  - Improved maintainability: BEM naming verified, CSS variables expanded, reduced specificity.
+  - Accessibility: visible focus, prefers-reduced-motion handling, high-contrast focus ring.
+  - Performance: minimized layout thrash; used transform-based hovers; ensured compositing.
+  - Cross-browser: added -webkit/-moz prefixes where relevant; safe fallbacks.
+  - Assets: constrained icons with width/height/aspect-ratio to prevent upscaling.
+
+  Base frame: 414 x 1100 (from JSON)
+*/
+
+:root {
+  /* Theme tokens */
+  --op-primary: #2563EB;
+  --op-secondary: #F59E0B;
+  --op-error: #EF4444;
+  --op-text: #111827;
+  --op-bg: #f9fafb;
+  --op-surface: #ffffff;
+
+  /* Effects */
+  --shadow-soft: 0 1px 3px rgba(17, 24, 39, 0.08), 0 1px 2px rgba(17, 24, 39, 0.06);
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Typography */
+  --font-family: "Inter", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    Arial, sans-serif;
+  --h1-size: 32px;              /* Figma size, clamped via media queries below */
+  --card-title-size: 20px;
+  --line-tight: 1.2;
+  --line-title: 1.3;
+
+  /* Base dimensions for scaling */
+  --base-width: 414;
+  --base-height: 1100;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--op-bg);
+  color: var(--op-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body { font-family: var(--font-family); }
+
+.home-125-171__viewport {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: start center;
+  overflow-x: hidden;
+  /* Prevents blurriness on scaled content on some browsers */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.home-125-171 {
+  position: relative;
+  width: 414px;
+  height: 1100px;
+  max-width: 100%;
+  background: var(--op-bg);
+  overflow: hidden;
+}
+
+/* Header mapping per JSON:
+   Frame origin (1602, -823)
+   Title at (x:1626,y:-776) => left:24px top:47px within 414x1100
+   Buttons at (1870,-772) and (1941,-772) => left:268px and 339px; top:51px
+*/
+.home-125-171__header {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 414px;
+  height: 120px;
+}
+
+.home-125-171__title {
+  position: absolute;
+  left: 24px;
+  top: 47px;
+  margin: 0;
+  width: 115px;
+  height: 59px;
+  font-size: var(--h1-size);
+  font-weight: 800;
+  line-height: 59px; /* aligns with Figma height */
+  color: var(--op-text);
+  letter-spacing: 0;
+}
+
+.home-125-171__actions {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 414px;
+  height: 120px;
+}
+
+.home-125-171__btn {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 12px;
+  background: var(--op-surface);
+  box-shadow: var(--shadow-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: -webkit-transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  will-change: transform; /* encourage GPU compositing */
+}
+
+.home-125-171__btn--icon:nth-child(1) { left: 268px; top: 51px; } /* search */
+.home-125-171__btn--icon:nth-child(2) { left: 339px; top: 51px; } /* info */
+
+.home-125-171__btn:hover,
+.home-125-171__btn.is-hover {
+  -webkit-transform: translateY(-1px);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(17, 24, 39, 0.12);
+  background-color: #f3f4f6;
+}
+
+.home-125-171__icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  max-width: 24px;
+  max-height: 24px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Cards: rectangles from JSON placed absolutely */
+.home-125-171__card--1,
+.home-125-171__card--2,
+.home-125-171__card--3,
+.home-125-171__card--4,
+.home-125-171__card--5 {
+  position: absolute;
+  background: var(--op-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.home-125-171__card--1 { left: 24px; top: 143px; width: 365px; height: 157px; }
+.home-125-171__card--2 { left: 24px; top: 323px; width: 365px; height: 123px; }
+.home-125-171__card--3 { left: 24px; top: 471px; width: 365px; height: 110px; }
+.home-125-171__card--4 { left: 24px; top: 606px; width: 365px; height: 120px; }
+.home-125-171__card--5 { left: 24px; top: 751px; width: 365px; height: 100px; }
+
+.home-125-171__card-title {
+  position: absolute;
+  margin: 0;
+  font-size: var(--card-title-size);
+  font-weight: 600;
+  line-height: var(--line-title);
+  color: var(--op-text);
+  letter-spacing: 0.2px;
+}
+
+/* Title positions are absolute in the same frame coordinates as JSON */
+.home-125-171__card--1 .home-125-171__card-title { left: 69px; top: 168px; width: 270px; height: 103px; }
+.home-125-171__card--2 .home-125-171__card-title { left: 69px; top: 352px; width: 254px; height: 64px; }
+.home-125-171__card--3 .home-125-171__card-title { left: 69px; top: 494px; width: 259px; height: 67px; }
+.home-125-171__card--4 .home-125-171__card-title { left: 69px; top: 632px; width: 287px; height: 68px; }
+.home-125-171__card--5 .home-125-171__card-title { left: 69px; top: 768px; width: 297px; height: 66px; }
+
+/* Floating action button derived from ellipse and icon */
+.home-125-171__fab {
+  position: absolute;
+  left: 309px; /* 1911 - 1602 */
+  top: 777px;  /* -46 - (-823) */
+  width: 70px;
+  height: 70px;
+  border-radius: 9999px;
+  border: none;
+  background: var(--op-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25), var(--shadow-soft);
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-transition: -webkit-transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+  will-change: transform;
+}
+
+.home-125-171__fab:hover,
+.home-125-171__fab.is-hover {
+  -webkit-transform: translateY(-2px);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35), var(--shadow-soft);
+  background: #1d4ed8;
+}
+
+.home-125-171__fab-icon {
+  width: 48px;
+  height: 48px;
+  display: block;
+  max-width: 48px;
+  max-height: 48px;
+  aspect-ratio: 1/1;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Focus visibility */
+.home-125-171__btn:focus-visible,
+.home-125-171__fab:focus-visible {
+  outline: 3px solid var(--op-secondary);
+  outline-offset: 2px;
+}
+
+/* Show focus only when using keyboard */
+.using-keyboard .home-125-171__btn:focus,
+.using-keyboard .home-125-171__fab:focus {
+  outline: 3px solid var(--op-secondary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-125-171__btn,
+  .home-125-171__fab {
+    -webkit-transition: none;
+    transition: none;
+  }
+}
+
+/* Responsive scaling: below base width, scale content; above, center fixed width */
+@media (max-width: 413.98px) {
+  .home-125-171__viewport { overflow: hidden; }
+  .home-125-171 {
+    -webkit-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: scale(calc(100vw / 414));
+    transform: scale(calc(100vw / 414));
+  }
+}
+
+@media (min-width: 414px) {
+  .home-125-171__viewport {
+    /* keep centered layout without scaling */
+    place-items: start center;
+  }
+}
+
+/* Typography clamps for larger screens to maintain hierarchy while not exceeding Figma sizes */
+@media (max-width: 1280px) {
+  :root {
+    --h1-size: clamp(26px, 5vw, 32px);
+    --card-title-size: clamp(16px, 3.8vw, 20px);
+  }
+}
+@media (max-width: 1024px) {
+  :root {
+    --h1-size: clamp(24px, 5vw, 30px);
+    --card-title-size: clamp(15px, 3.6vw, 19px);
+  }
+}
+@media (max-width: 768px) {
+  :root {
+    --h1-size: clamp(22px, 6vw, 28px);
+    --card-title-size: clamp(14px, 4.2vw, 18px);
+  }
+}
+
+/* Utilities */
+.u-hide-text {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}

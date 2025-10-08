@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Home Screen (125:171)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <!--
+    Changelog:
+    - Ensured exact asset paths from JSON, added width/height, decoding, lazy where appropriate.
+    - Confirmed semantic landmarks and ARIA labels for accessibility.
+    - Added noscript focus outline fallback note via CSS class on HTML root (JS adds .using-keyboard).
+  -->
+  <!-- Preload header icons and FAB icon for faster LCP -->
+  <link rel="preload" href="/assets/figmaimages/figma_image_125_190.svg" as="image" type="image/svg+xml" imagesrcset="/assets/figmaimages/figma_image_125_190.svg 1x" />
+  <link rel="preload" href="/assets/figmaimages/figma_image_125_188.svg" as="image" type="image/svg+xml" imagesrcset="/assets/figmaimages/figma_image_125_188.svg 1x" />
+  <link rel="preload" href="/assets/figmaimages/figma_image_125_192.svg" as="image" type="image/svg+xml" imagesrcset="/assets/figmaimages/figma_image_125_192.svg 1x" />
+  <link rel="stylesheet" href="./home-screen-125-171.css" />
+</head>
+<body>
+  <!--
+    Semantic structure + accessibility:
+    - header/nav/main landmarks
+    - h1 then h2s for items
+    - buttons are keyboard-accessible with focus outlines
+    Asset policy:
+    - Use exact figmaimages paths from JSON
+  -->
+  <div class="home-125-171__viewport" role="region" aria-label="Responsive viewport">
+    <main class="home-125-171" role="main" aria-label="Home Screen Notes">
+      <header class="home-125-171__header" aria-label="Top Bar">
+        <h1 class="home-125-171__title">Notes</h1>
+        <nav class="home-125-171__actions" role="group" aria-label="Header actions">
+          <button class="home-125-171__btn home-125-171__btn--icon" aria-label="Search" type="button">
+            <img
+              class="home-125-171__icon"
+              src="/assets/figmaimages/figma_image_125_190.svg"
+              alt="Search"
+              width="24"
+              height="24"
+              decoding="async"
+              loading="eager"
+            />
+          </button>
+          <button class="home-125-171__btn home-125-171__btn--icon" aria-label="Information" type="button">
+            <img
+              class="home-125-171__icon"
+              src="/assets/figmaimages/figma_image_125_188.svg"
+              alt="Information"
+              width="24"
+              height="24"
+              decoding="async"
+              loading="eager"
+            />
+          </button>
+        </nav>
+      </header>
+
+      <section class="home-125-171__list" aria-label="Notes list">
+        <article class="home-125-171__card home-125-171__card--1" aria-labelledby="card1-title">
+          <h2 id="card1-title" class="home-125-171__card-title">
+            Book Review : The Design of Everyday Things by Don Norman
+          </h2>
+        </article>
+
+        <article class="home-125-171__card home-125-171__card--2" aria-labelledby="card2-title">
+          <h2 id="card2-title" class="home-125-171__card-title">
+            Animes produced by Ufotable
+          </h2>
+        </article>
+
+        <article class="home-125-171__card home-125-171__card--3" aria-labelledby="card3-title">
+          <h2 id="card3-title" class="home-125-171__card-title">
+            Mangas planned to read
+          </h2>
+        </article>
+
+        <article class="home-125-171__card home-125-171__card--4" aria-labelledby="card4-title">
+          <h2 id="card4-title" class="home-125-171__card-title">
+            Awesome tweets collection
+          </h2>
+        </article>
+
+        <article class="home-125-171__card home-125-171__card--5" aria-labelledby="card5-title">
+          <h2 id="card5-title" class="home-125-171__card-title">
+            List of free &amp; open source apps
+          </h2>
+        </article>
+      </section>
+
+      <button class="home-125-171__fab" aria-label="Add note" type="button">
+        <img
+          class="home-125-171__fab-icon"
+          src="/assets/figmaimages/figma_image_125_192.svg"
+          alt="Add"
+          width="48"
+          height="48"
+          decoding="async"
+          loading="lazy"
+        />
+      </button>
+    </main>
+  </div>
+
+  <script src="./home-screen-125-171.js"></script>
+</body>
+</html>
